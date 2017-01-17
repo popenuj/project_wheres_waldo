@@ -1,8 +1,8 @@
 var TAGGING = TAGGING || {}
 
 TAGGING.Controller = (function() {
-  var view,
-      model;
+
+  var view, model;
 
   var init = function init(tModel, tView) {
     model = tModel
@@ -13,6 +13,7 @@ TAGGING.Controller = (function() {
 
   var selectChar = function(character, x, y) {
     model.addTag(character, x, y);
+    model.addTagData(character, x, y);
     view.addTag(model.getLastTag());
   }
 
@@ -21,6 +22,7 @@ TAGGING.Controller = (function() {
   };
 
 })();
+
 $(document).ready(function() {
   TAGGING.Controller.init(TAGGING.Model, TAGGING.View);
 });
