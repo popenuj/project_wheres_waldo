@@ -45,7 +45,7 @@ TAGGING.View = (function($) {
     $dropdown.on("change", function(e) {
       selectChar($(e.target).val(), boxX, boxY)
       $dropdown.hide();
-      _turnOnEventListeners();
+      setTimeout(_turnOnEventListeners, 50); // hacky
     });
   }
 
