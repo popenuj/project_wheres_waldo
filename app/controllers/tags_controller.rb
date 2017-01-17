@@ -1,14 +1,19 @@
 class TagsController < ApplicationController
 
   def index
+    @tag = Tag.new
+    @tags = Tag.all
+    respond_to do |format|
+      format.json {render json: @tags}
+      format.html
+    end
   end
 
   def create
     @tag = Tag.new(tag_params)
-    if @tag.save
-      redirect_to @tag, format: :json
-    else
-      render :index
+    @tag.save
+    respond_to do |format|
+      format.json {render json: @tag}
     end
   end
 

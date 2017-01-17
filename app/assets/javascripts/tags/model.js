@@ -33,19 +33,17 @@ TAGGING.Model = (function($) {
       }
     };
     return $.ajax({
-      url: '/tags',
+      url: '/tags.json',
       method: 'POST',
       data: newTag,
       dataType: 'json',
-      // headers: {
-      //   "Content-type": "application/x-www-form-urlencoded"
-      // },
-      success: function(data) {
-        console.log('SUCCESS');
-      },
-      error: function(data) {
-        console.log('FAIL');
-      }
+    });
+  }
+
+  var getExistingTags = function() {
+    return $.ajax({
+      url: '/tags.json',
+      method: 'GET'
     });
   }
 
@@ -54,7 +52,8 @@ TAGGING.Model = (function($) {
     addTag: addTag,
     addTagData: addTagData,
     getTags: getTags,
-    getLastTag: getLastTag
+    getLastTag: getLastTag,
+    getExistingTags: getExistingTags
   }
 
 })($);

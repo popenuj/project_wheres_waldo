@@ -49,9 +49,6 @@ li:hover {
 .display-box:hover {
   cursor: pointer;
 }
-#waldo-image img {
-  width: 1000px;
-}
 .photo:hover {
   /*cursor: none;*/
 }

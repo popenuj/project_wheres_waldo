@@ -1,4 +1,4 @@
-var TAGGING = TAGGING || {}
+ var TAGGING = TAGGING || {}
 
 TAGGING.Controller = (function() {
 
@@ -9,12 +9,21 @@ TAGGING.Controller = (function() {
     view = tView
     view.init(selectChar);
     model.init();
+    addExistingTags();
   }
 
   var selectChar = function(character, x, y) {
     model.addTag(character, x, y);
     model.addTagData(character, x, y);
     view.addTag(model.getLastTag());
+  }
+
+  var addExistingTags = function() {
+    model.getExistingTags().done(function(response) {
+      response.forEach(function(tag) {
+        view.addTag(tag);
+      })
+    });
   }
 
   return {
