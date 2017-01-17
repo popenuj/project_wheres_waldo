@@ -2,14 +2,7 @@ var TAGGING = TAGGING || {}
 
 TAGGING.View = (function($) {
 
-  var $photo, $box, $dropdown;
-
-  // var $box = $(".display-box");
-  // var $photo = $( ".photo" ),
-  //     $box = $(".box"),
-  //     $dropdown = $('<ul>').html(
-  //       '<li class="choice">Bob</li><li class="choice">Frank</li><li class="choice">Waldo</li>'
-  //     ).addClass('push-down').slideUp(0);
+  var $photo, $box, $dropdown, boxX, boxY;
 
   var _setBox = function() {
     $box = $( ".box" );
@@ -21,77 +14,94 @@ TAGGING.View = (function($) {
 
   var _setDropdown = function() {
     $dropdown = $( ".dropdown" );
-    $dropdown.css("width", "60px");
     $dropdown.hide();
   }
 
-  var _addMouseMoveListener = function() {
-    var $photo = $( ".photo" )
+  var _turnOnMouseMoveListener = function() {
     $photo.mousemove(function( event ) {
-      console.log("move")
       $box.css("left", (event.pageX) + "px");
       $box.css("top", (event.pageY) + "px");
     });
   };
 
-  var _addPhotoHoverListener = function() {
-    console.log("hover")
+  var _turnOnPhotoHoverListener = function() {
     $photo.hover(function( event ) {
       $box.toggleClass("finder");
     });
   };
 
-  // $photo.click(function( event ) {
-  //   newDiv = $('<div>').css("left", (event.pageX - 85) + "px")
-  //                      .css("top", (event.pageY - 40) + "px")
-  //                      .addClass("finder box");
-  //   newDiv.append($dropdown).slideDown(500);
-  //
-  //   $photo.append(newDiv);
-  //
-  //   $("ul").slideUp(0);
-  //
-  //
-  //   $box.click(function(){
-  //     $("ul").slideDown(1000);
-  //   });
-  //scs").val(e.target.innerText);
-  //     $("ul").slideUp(500);
-  //   });
-  //
-  // });
-
-  var _addDropdownListener = function() {
+  var _turnOnPhotoClickListener = function() {
     $photo.click(function(event) {
-      _freezeBox(event.pageX, event.pageY);
+      _turnOffEventListeners();
       _positionDropdown(event.pageX, event.pageY);
+      boxX = event.pageX;
+      boxY = event.pageY;
       $dropdown.show();
+      $dropdown.val(null);
     });
   }
 
-  var _freezeBox = function(x, y) {
-    $frozenBox = $('<div>');
-    $frozenBox.css("left", x + "px");
-    $frozenBox.css("top", y + "px");
+  var _turnOnDropdownClickListener = function(selectChar) {
+    $dropdown.on("change", function(e) {
+      selectChar($(e.target).val(), boxX, boxY)
+      $dropdown.hide();
+      _turnOnEventListeners();
+    });
+  }
+
+  var _turnOnEventListeners = function() {
+    _turnOnMouseMoveListener();
+    _turnOnPhotoHoverListener();
+    _turnOnPhotoClickListener();
+  }
+
+  var _turnOffEventListeners = function() {
+    _turnOffMouseMoveListener();
+    _turnOffPhotoHoverListener();
+    _turnOffPhotoClickListener();
+  }
+
+  var _turnOffMouseMoveListener = function() {
+    $photo.off("mousemove")
+  }
+
+  var _turnOffPhotoHoverListener = function() {
+    $photo.off("hover")
+  }
+
+  var _turnOffPhotoClickListener = function() {
+    $photo.off("click")
   }
 
   var _positionDropdown = function(x, y) {
     $dropdown.css("position", "absolute");
     $dropdown.css("left", x + "px");
-    $dropdown.css("top", (y + 60) + "px");
+    $dropdown.css("top", (y + 64) + "px");
   }
 
-  var init = function init() {
+  var addTag = function(tag) {
+    var $tagName = $("<div class='name'>").text(tag.character).css({
+      left: tag.x,
+      top: tag.y
+    });
+    var $tagBox = $("<div class='found box'>").css({
+      left: tag.x,
+      top: tag.y
+    });
+    $photo.append($tagBox).append($tagName);
+  }
+
+  var init = function init(selectChar) {
     _setPhoto();
     _setBox();
     _setDropdown();
-    _addMouseMoveListener();
-    _addPhotoHoverListener();
-    _addDropdownListener();
+    _turnOnEventListeners();
+    _turnOnDropdownClickListener(selectChar);
   };
 
   return {
-    init: init
+    init: init,
+    addTag: addTag
   }
 
 })($);

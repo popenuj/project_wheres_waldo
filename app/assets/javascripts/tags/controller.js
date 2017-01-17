@@ -7,7 +7,13 @@ TAGGING.Controller = (function() {
   var init = function init(tModel, tView) {
     model = tModel
     view = tView
-    view.init();
+    view.init(selectChar);
+    model.init();
+  }
+
+  var selectChar = function(character, x, y) {
+    model.addTag(character, x, y);
+    view.addTag(model.getLastTag());
   }
 
   return {
@@ -18,4 +24,3 @@ TAGGING.Controller = (function() {
 $(document).ready(function() {
   TAGGING.Controller.init(TAGGING.Model, TAGGING.View);
 });
-// DROPDOWN MENU //
