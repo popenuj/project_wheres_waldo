@@ -2,8 +2,7 @@ var TAGGING = TAGGING || {}
 
 TAGGING.View = (function($) {
 
-  var $photo,
-      $box;
+  var $photo, $box, $dropdown;
 
   // var $box = $(".display-box");
   // var $photo = $( ".photo" ),
@@ -17,7 +16,13 @@ TAGGING.View = (function($) {
   }
 
   var _setPhoto = function() {
-    $photo = $( ".photo" )
+    $photo = $( ".photo" );
+  }
+
+  var _setDropdown = function() {
+    $dropdown = $( ".dropdown" );
+    $dropdown.css("width", "60px");
+    $dropdown.hide();
   }
 
   var _addMouseMoveListener = function() {
@@ -50,22 +55,43 @@ TAGGING.View = (function($) {
   //   $box.click(function(){
   //     $("ul").slideDown(1000);
   //   });
-  //
-  //   $("ul").on("click", "li", function(e) {
-  //     $(".display-box").val(e.target.innerText);
+  //scs").val(e.target.innerText);
   //     $("ul").slideUp(500);
   //   });
   //
   // });
 
+  var _addDropdownListener = function() {
+    $photo.click(function(event) {
+      _freezeBox(event.pageX, event.pageY);
+      _positionDropdown(event.pageX, event.pageY);
+      $dropdown.show();
+    });
+  }
+
+  var _freezeBox = function(x, y) {
+    $frozenBox = $('<div>');
+    $frozenBox.css("left", x + "px");
+    $frozenBox.css("top", y + "px");
+  }
+
+  var _positionDropdown = function(x, y) {
+    $dropdown.css("position", "absolute");
+    $dropdown.css("left", x + "px");
+    $dropdown.css("top", (y + 60) + "px");
+  }
+
   var init = function init() {
     _setPhoto();
     _setBox();
+    _setDropdown();
     _addMouseMoveListener();
     _addPhotoHoverListener();
+    _addDropdownListener();
   };
 
   return {
     init: init
   }
+
 })($);

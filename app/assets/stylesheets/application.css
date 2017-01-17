@@ -29,8 +29,8 @@
 .container {
   margin-top: 10px;
 }
-#dropdown {
-  border-top: none;
+.dropdown select {
+  width: 80px;
 }
 ul {
    list-style: none;
