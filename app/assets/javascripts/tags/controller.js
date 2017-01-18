@@ -15,12 +15,15 @@ TAGGING.Controller = (function() {
   var selectChar = function(character, x, y) {
     model.addTag(character, x, y);
     model.addTagData(character, x, y);
-    view.addTag(model.getLastTag());
+    model.addTagData(character, x, y).done(function(response) {
+      view.addTag(response);
+    });
   }
 
   var addExistingTags = function() {
     model.getExistingTags().done(function(response) {
       response.forEach(function(tag) {
+        console.log(tag)
         view.addTag(tag);
       })
     });

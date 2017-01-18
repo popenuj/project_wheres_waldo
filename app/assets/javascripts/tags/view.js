@@ -82,13 +82,18 @@ TAGGING.View = (function($) {
   var addTag = function(tag) {
     var $tagName = $("<div class='name'>").text(tag.character).css({
       left: tag.x,
-      top: tag.y
+      top: tag.y + 64
     });
     var $tagBox = $("<div class='found box'>").css({
       left: tag.x,
       top: tag.y
     });
-    $photo.append($tagBox).append($tagName);
+    var $deleteLink = $("<a class='delete'>X</a>").css({
+      left: tag.x + 4,
+      top: tag.y
+    })
+    var $wrapper = $("<div>").attr("data-id", tag.id).append($tagBox).append($tagName).append($deleteLink)
+    $photo.append($wrapper);
   }
 
   var init = function init(selectChar) {

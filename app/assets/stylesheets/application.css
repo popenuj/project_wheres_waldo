@@ -73,10 +73,20 @@ li:hover {
   background-color: green;
   color: white;
   position: absolute;
-  width: 64px;
+  width: 68px;
+  font-size: 14px;
   text-align: center;
 }
 .push-down {
   margin-top: 60px;
   pointer-events: all;
+}
+.delete {
+  background-color: green;
+  width: 10px;
+  height: 10px;
+  color: white;
+  line-height: 10px;
+  font-size: 10px;
+  position: absolute;
 }
